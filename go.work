@@ -1,0 +1,7 @@
+go 1.21.1
+
+use (
+  ./order-service
+  ./order-service/pkg/api/order-service
+  ./store-service
+)

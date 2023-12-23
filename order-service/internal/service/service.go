@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/pintoter/mts-test/order-service/internal/entity"
 	sarama "gopkg.in/Shopify/sarama.v1"
@@ -22,8 +23,9 @@ func New(producer sarama.SyncProducer) *Service {
 
 func (s *Service) CreateOrder(ctx context.Context, userId, itemId int64) error {
 	order := &entity.Order{
-		UserId: userId,
-		ItemId: itemId,
+		UserId:    userId,
+		ItemId:    itemId,
+		CreatedAt: time.Now(),
 	}
 
 	o, err := json.Marshal(order)

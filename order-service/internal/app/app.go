@@ -16,10 +16,10 @@ func Run() {
 	producer := broker.NewSyncProducer()
 	log.Println("order-service: success creating producer")
 
-	service := service.New(producer)
+	orderService := service.New(producer)
 	log.Println("order-service: success creating service")
 
-	if err := server.New(service).Run(&cfg.Grpc); err != nil {
+	if err := server.New(orderService).Run(&cfg.Grpc); err != nil {
 		log.Fatal(err)
 	}
 }

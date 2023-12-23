@@ -9,6 +9,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	configPath = "./configs"
+	configName = "main"
+)
+
 type Grpc struct {
 	Host              string
 	Port              string
@@ -46,8 +51,8 @@ var config = new(Config)
 var once sync.Once
 
 func init() {
-	viper.AddConfigPath("./configs")
-	viper.SetConfigName("main")
+	viper.AddConfigPath(configPath)
+	viper.SetConfigName(configName)
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatal("reading config err")

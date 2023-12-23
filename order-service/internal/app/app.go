@@ -3,8 +3,8 @@ package app
 import (
 	"log"
 
-	"github.com/pintoter/mts-test/order-service/internal/broker"
 	"github.com/pintoter/mts-test/order-service/internal/config"
+	"github.com/pintoter/mts-test/order-service/internal/repository/kafka"
 	server "github.com/pintoter/mts-test/order-service/internal/server/grpc"
 	"github.com/pintoter/mts-test/order-service/internal/service"
 )
@@ -13,7 +13,7 @@ func Run() {
 	cfg := config.Read()
 	log.Println("order-service: success reading config")
 
-	producer := broker.NewSyncProducer()
+	producer := kafka.NewProducer(&cfg.Kafka)
 	log.Println("order-service: success creating producer")
 
 	orderService := service.New(producer)

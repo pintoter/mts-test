@@ -50,8 +50,22 @@ func (db *DB) GetConnMaxLifetime() time.Duration {
 	return db.ConnMaxLifetime
 }
 
+type Kafka struct {
+	Brokers []string
+	Topics  []string
+}
+
+func (k *Kafka) GetBrokers() []string {
+	return k.Brokers
+}
+
+func (k *Kafka) GetTopics() []string {
+	return k.Topics
+}
+
 type Config struct {
-	DB DB
+	DB    DB
+	Kafka Kafka
 }
 
 var config = new(Config)

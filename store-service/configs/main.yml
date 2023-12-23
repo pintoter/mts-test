@@ -3,3 +3,9 @@ db:
   maxIdleConns: 5
   connMaxIdleTime: 5m
   connMaxLifetime: 5m
+
+kafka:
+  brokers:
+    - "0.0.0.0:9095"
+  topics: 
+    - order_created

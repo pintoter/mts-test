@@ -2,48 +2,28 @@ package service
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"log"
 	"time"
 
 	"github.com/pintoter/mts-test/order-service/internal/entity"
-	sarama "gopkg.in/Shopify/sarama.v1"
+	"github.com/pintoter/mts-test/order-service/internal/repository"
 )
 
 type Service struct {
-	producer sarama.SyncProducer
+	broker repository.MessageBroker
 }
 
-func New(producer sarama.SyncProducer) *Service {
+func New(broker repository.MessageBroker) *Service {
 	return &Service{
-		producer: producer,
+		broker: broker,
 	}
 }
 
 func (s *Service) CreateOrder(ctx context.Context, userId, itemId int64) error {
-	order := &entity.Order{
+	order := entity.Order{
 		UserId:    userId,
 		ItemId:    itemId,
 		CreatedAt: time.Now(),
 	}
 
-	o, err := json.Marshal(order)
-	if err != nil {
-		return err
-	}
-
-	msg := &sarama.ProducerMessage{
-		Topic: "order_created",
-		Key:   sarama.StringEncoder(fmt.Sprintf("%d", userId)),
-		Value: sarama.StringEncoder(o),
-	}
-
-	partition, offset, err := s.producer.SendMessage(msg)
-	if err != nil {
-		return err
-	}
-	log.Printf("message sent to partition %d at offset %d\n", partition, offset)
-
-	return nil
+	return s.broker.Publish(ctx, order)
 }

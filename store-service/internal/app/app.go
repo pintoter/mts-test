@@ -32,7 +32,7 @@ func Run() {
 	handler := kafka.NewHandler(storeService)
 	log.Println("store-service: init handler")
 
-	err = kafka.StartConsuming(context.Background(), handler)
+	err = kafka.StartConsuming(context.Background(), &cfg.Kafka, handler)
 	for {
 	}
 }

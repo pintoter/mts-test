@@ -16,5 +16,5 @@ deps:
 build:
 	go build -o order-service ./cmd/order-service/main.go
 
-run: 
+run: build
 	./order-service

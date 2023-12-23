@@ -5,3 +5,8 @@ grpc:
   maxConnectionIdle: 5m
   time: 15s
   timeout: 15s
+
+kafka:
+  brokers:
+    - "0.0.0.0:9095"
+  topic: order_created

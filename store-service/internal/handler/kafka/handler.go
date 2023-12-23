@@ -45,30 +45,3 @@ func (h *kafkaHandler) ConsumeClaim(session sarama.ConsumerGroupSession, claim s
 	}
 	return nil
 }
-
-func StartConsuming(ctx context.Context, handler sarama.ConsumerGroupHandler) error {
-	config := sarama.NewConfig()
-	config.Version = sarama.MaxVersion
-	config.Consumer.Group.Rebalance.Strategy = sarama.BalanceStrategyRoundRobin
-	config.Consumer.Offsets.Initial = sarama.OffsetOldest
-
-	consumerGroup, err := sarama.NewConsumerGroup([]string{"localhost:9095"}, "store_service", config)
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-	go func() {
-		for {
-			if err := consumerGroup.Consume(ctx, []string{"order_created"}, handler); err != nil {
-				log.Println("error from consumer")
-			}
-
-			if ctx.Err() != nil {
-				return
-			}
-		}
-
-	}()
-
-	return nil
-}

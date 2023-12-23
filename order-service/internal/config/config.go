@@ -43,8 +43,22 @@ func (g *Grpc) GetTimeout() time.Duration {
 	return g.Timeout
 }
 
+type Kafka struct {
+	Brokers []string
+	Topic   string
+}
+
+func (k *Kafka) GetBrokers() []string {
+	return k.Brokers
+}
+
+func (k *Kafka) GetTopic() string {
+	return k.Topic
+}
+
 type Config struct {
-	Grpc Grpc
+	Grpc  Grpc
+	Kafka Kafka
 }
 
 var config = new(Config)

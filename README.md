@@ -23,7 +23,28 @@
 
 1. Implement 2 services: `order-service` & `store-service`
 2. The first service `order-service` should receive a request via **[gRPC](https://grpc.io)** and send data to **[Kafka](https://kafka.apache.org)**
+
+```proto
+message CreateOrderRequest{
+ int64 user_id = 1;
+ int64 item_id = 2;
+}
+
+message CreateOrderResponse{
+  string message = 1;
+}
+```
+
 3. The second service `store-service` should reviece a message from **[Kafka](https://kafka.apache.org)** and write it to **[PostgreSQL](https://www.postgresql.org)**
+
+```sql
+CREATE TABLE IF NOT EXISTS store (
+  id SERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  item_id BIGINT NOT NULL,
+  created_at DATE NOT NULL DEFAULT CURRENT_DATE
+);
+```
 
 ---
 
@@ -66,3 +87,24 @@ make version=prod
 4. **To test functionality, you can open `Postman` and create request to order-service: `0.0.0.0:8001`
   Access to Kafka-UI: http://localhost:8080/ .**
 
+* Example request in Postman:
+```json
+{
+    "item_id": "1",
+    "user_id": "10"
+}
+```
+
+* Example response in Postman:
+```json
+{
+    "message": "Your order has been successfully created!"
+}
+```
+
+* Example record in PostgreSQL:
+```sql
+| id | user_id | item_id | item_id    |
+| -- | ------- | ------- | ---------- |
+| 1  | 10      | 1       | 2023-12-24 |
+```

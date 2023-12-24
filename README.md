@@ -5,12 +5,12 @@ How to run local:
   1) touch ./store-service/.env
   2) open ./store-service/.env and fill:
       # Database
-export DB_USER = username
-export DB_PASSWORD = password
-export DB_HOST = "localhost" 
-export DB_PORT = 5432
-export DB_NAME = "store"
-export DB_SSLMODE = "disable"
+      DB_USER = username
+      DB_PASSWORD = password
+      DB_HOST = "localhost" 
+      DB_PORT = 5432
+      DB_NAME = "store"
+      DB_SSLMODE = "disable"
 
   3) make run-local
   4) cd store-service && make run
@@ -25,3 +25,17 @@ export DB_SSLMODE = "disable"
         "user_id": "1"
       }
   2) Kafka-UI: http://localhost:8080
+
+
+Create .env in directory ./ and fill:
+  DB_USER = postgres
+  DB_PASSWORD = 123qweASD
+  DB_PORT = 5432
+  DB_NAME = store
+Create .env in dicrectory ./store-service/ and fill:
+  DB_USER = username
+  DB_PASSWORD = password
+  DB_HOST = "localhost" 
+  DB_PORT = 5432
+  DB_NAME = "store"
+  DB_SSLMODE = "disable"

@@ -23,6 +23,8 @@ type Config interface {
 
 func NewProducer(cfg Config) *kafkaProducer {
 	config := sarama.NewConfig()
+	config.Producer.Partitioner = sarama.NewRandomPartitioner
+	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Return.Successes = true
 
 	producer, err := sarama.NewSyncProducer(cfg.GetBrokers(), config)

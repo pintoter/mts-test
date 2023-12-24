@@ -3,12 +3,15 @@ module github.com/pintoter/mts-test/order-service
 go 1.21.1
 
 require (
+	github.com/pintoter/mts-test/order-service/pkg/api/order-service v0.0.0-00010101000000-000000000000
+	github.com/spf13/viper v1.18.2
 	google.golang.org/grpc v1.60.1
-	google.golang.org/protobuf v1.32.0
+	gopkg.in/Shopify/sarama.v1 v1.20.1
 )
 
 require (
 	github.com/DataDog/zstd v1.5.5 // indirect
+	github.com/Shopify/toxiproxy v2.1.4+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/eapache/go-resiliency v1.5.0 // indirect
 	github.com/eapache/go-xerial-snappy v0.0.0-20230731223053-c322873962e3 // indirect
@@ -28,7 +31,6 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.18.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
@@ -37,7 +39,7 @@ require (
 	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231120223509-83a465c0220f // indirect
-	gopkg.in/Shopify/sarama.v1 v1.20.1 // indirect
+	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

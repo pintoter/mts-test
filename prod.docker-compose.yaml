@@ -1,0 +1,88 @@
+version: '3.9'
+
+services:
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - local_net
+
+  kafka-1:
+    container_name: kafka-1
+    image: wurstmeister/kafka
+    ports:
+      - 9095:9094
+    environment:
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9094
+      # Uncomment below if services are run locally (not in docker)
+      # KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://localhost:9095
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9095
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LOG_DIRS: /kafka/logs
+      KAFKA_BROKER_ID: 500
+      KAFKA_offsets_topic_replication_factor: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./kafka_data/500:/kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - local_net
+    restart: unless-stopped
+
+  order-service:
+    build:
+      dockerfile: ./order-service/Dockerfile
+    ports:
+      - '8001:7001'
+    volumes:
+      - ./docs:/root/docs
+    networks:
+      - local_net
+   # restart: unless-stopped
+
+  store-service:
+    build:
+      dockerfile: ./store-service/Dockerfile
+    ports:
+      - '8002:8002'
+    volumes:
+      - ./docs:/root/docs
+    networks:
+      - local_net
+   # restart: unless-stopped
+
+  store-service-postgres:
+    image: postgres:latest
+    hostname: postgres
+    ports:
+      - "${LOCAL_DB_PORT}:${DB_PORT}"
+    environment:
+      - "POSTGRES_DB=store"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=123qweASD"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    restart: on-failure
+    networks:
+      - local_net
+
+networks:
+  local_net:
+    driver: bridge
+
+volumes:
+  pg-data:

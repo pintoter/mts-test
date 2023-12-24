@@ -13,4 +13,6 @@ message CreateOrderRequest{
  int64 item_id = 2;
 }
 
-message CreateOrderResponse{}
+message CreateOrderResponse{
+  string message = 1;
+}

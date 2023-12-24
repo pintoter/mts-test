@@ -3,8 +3,8 @@ package kafka
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
+	"time"
 
 	"github.com/pintoter/mts-test/store-service/internal/entity"
 	"github.com/pintoter/mts-test/store-service/internal/service"
@@ -34,14 +34,22 @@ func (h *kafkaHandler) ConsumeClaim(session sarama.ConsumerGroupSession, claim s
 		var order entity.Order
 		err := json.Unmarshal(message.Value, &order)
 		if err != nil {
-			log.Println("error unmarshalling message:", err)
+			log.Println("store service: error unmarshalling message:", err)
 		}
 
-		fmt.Printf("Msg: %d, %d, %d, %v\n", order.ID, order.UserId, order.ItemId, order.CreatedAt)
+		log.Printf("store service: got new message: userId - %d, itemId - %d, time - %v\n", order.UserId, order.ItemId, order.CreatedAt)
 
-		h.service.Store(context.Background(), order)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+		err = h.service.Store(ctx, order)
+		if err != nil {
+			log.Println("store-service: handler err:", err)
+		}
 
 		session.MarkMessage(message, "")
+
+		cancel()
 	}
+
 	return nil
 }

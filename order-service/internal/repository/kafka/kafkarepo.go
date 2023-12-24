@@ -56,6 +56,6 @@ func (p *kafkaProducer) Publish(ctx context.Context, order entity.Order) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("message sent to partition %d at offset %d\n", partition, offset)
+	log.Printf("order service: message sent to partition %d at offset %d\n", partition, offset)
 	return nil
 }

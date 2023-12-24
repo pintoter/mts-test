@@ -14,4 +14,10 @@ run:
 stop:
 	docker-compose ${DOCKER_COMPOSE_FILE} down
 
+.PHONY: re
 re: stop run
+
+.PHONY: lint
+lint:
+	golangci-lint run ./order-service/...
+	golangci-lint run ./store-service/...

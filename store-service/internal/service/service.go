@@ -24,6 +24,6 @@ func (s *Service) Store(ctx context.Context, order entity.Order) error {
 		log.Println(err)
 		return err
 	}
-	log.Printf("successfully writing new order: %d\n", id)
+	log.Printf("store service: successfully writing new order in DB: %d\n", id)
 	return nil
 }

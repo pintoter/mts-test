@@ -30,7 +30,7 @@ func StartConsuming(ctx context.Context, cfg Config, handler sarama.ConsumerGrou
 	go func() {
 		for {
 			if err := consumerGroup.Consume(ctx, cfg.GetTopics(), handler); err != nil {
-				log.Println("error from consumerGroup:", err)
+				log.Println("store service: error from consumerGroup:", err)
 			}
 
 			if ctx.Err() != nil {

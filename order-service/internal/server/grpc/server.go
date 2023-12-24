@@ -57,33 +57,29 @@ func (s *grpcServer) Run(cfg Config) error {
 	desc.RegisterOrderServiceServer(grpcServer, s)
 
 	go func() {
-		log.Println("gRPC server is listening on:", cfg.GetGrpcAddr())
+		log.Println("order service: gRPC server is listening on:", cfg.GetGrpcAddr())
 		if err := grpcServer.Serve(lis); err != nil {
-			log.Fatal("failed running gRPC server")
+			log.Fatal("order service: failed running gRPC server")
 		}
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 
-	select {
-	case v := <-quit:
-		log.Printf("got signal %v, starting shut down", v)
-		grpcServer.GracefulStop()
-	}
-
-	log.Println("gRPC server correctly shutdown")
-
+	v := <-quit
+	log.Printf("order service: got signal %v, starting shut down", v)
+	grpcServer.GracefulStop()
+	log.Println("order service: gRPC server correctly shutdown")
 	return nil
 }
 
 func (s *grpcServer) CreateOrder(ctx context.Context, req *desc.CreateOrderRequest) (*desc.CreateOrderResponse, error) {
-	log.Printf("got new request from UserId: %d for buy ItemId: %d\n", req.GetUserId(), req.GetItemId())
+	log.Printf("order service: got new request from UserId: %d for buy ItemId: %d\n", req.GetUserId(), req.GetItemId())
 
 	err := s.service.CreateOrder(ctx, req.GetUserId(), req.GetItemId())
 	if err != nil {
 		return &desc.CreateOrderResponse{}, status.Errorf(codes.Internal, err.Error())
 	}
 
-	return &desc.CreateOrderResponse{}, nil
+	return &desc.CreateOrderResponse{Message: "Your order has been successfully created!"}, nil
 }

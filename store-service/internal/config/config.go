@@ -87,9 +87,7 @@ func init() {
 
 func Read() *Config {
 	once.Do(func() {
-		var err error
-
-		err = viper.Unmarshal(config)
+		err := viper.Unmarshal(config)
 		if err != nil {
 			log.Fatal("reading config")
 		}

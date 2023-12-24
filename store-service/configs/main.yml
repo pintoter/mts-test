@@ -6,6 +6,6 @@ db:
 
 kafka:
   brokers:
-    - "localhost:9095"
+    - "kafka-1:9094" # 127.0.0.1:9095
   topics: 
     - order_created

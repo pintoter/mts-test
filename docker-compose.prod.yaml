@@ -9,6 +9,8 @@ services:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    networks:
+      - local_net
 
   zookeeper:
     container_name: zookeeper
@@ -27,9 +29,9 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9094
-      # Uncomment below if services are run locally (not in docker)
+      # Uncomment below if services are run locally
       # KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://localhost:9095
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9095
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_LOG_DIRS: /kafka/logs
       KAFKA_BROKER_ID: 500
@@ -47,12 +49,12 @@ services:
     build:
       dockerfile: ./order-service/Dockerfile
     ports:
-      - '8001:7001'
+      - '8001:8001'
     volumes:
       - ./docs:/root/docs
     networks:
       - local_net
-   # restart: unless-stopped
+    restart: unless-stopped
 
   store-service:
     build:
@@ -63,13 +65,13 @@ services:
       - ./docs:/root/docs
     networks:
       - local_net
-   # restart: unless-stopped
+    restart: unless-stopped
 
   store-service-postgres:
     image: postgres:latest
     hostname: postgres
     ports:
-      - "${LOCAL_DB_PORT}:${DB_PORT}"
+      - '5432:5432'
     environment:
       - "POSTGRES_DB=store"
       - "POSTGRES_USER=postgres"

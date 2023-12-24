@@ -1,6 +1,6 @@
 grpc:
-  host: 0.0.0.0
-  port: 7001
+  host: order-service # 0.0.0.0
+  port: 8001
   maxConnectionAge: 5m
   maxConnectionIdle: 5m
   time: 15s
@@ -8,5 +8,5 @@ grpc:
 
 kafka:
   brokers:
-    - "127.0.0.1:9095"
+    - "kafka-1:9094" # 127.0.0.1:9095
   topic: order_created

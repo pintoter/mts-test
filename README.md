@@ -104,7 +104,7 @@ make version=prod
 
 * Example record in PostgreSQL:
 ```sql
-| id | user_id | item_id | item_id    |
+| id | user_id | item_id | created_at |
 | -- | ------- | ------- | ---------- |
 | 1  | 10      | 1       | 2023-12-24 |
 ```

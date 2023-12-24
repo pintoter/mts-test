@@ -71,11 +71,11 @@ services:
     image: postgres:latest
     hostname: postgres
     ports:
-      - '5432:5432'
+      - "${DB_PORT}:5432"
     environment:
-      - "POSTGRES_DB=store"
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=123qweASD"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "POSTGRES_DB=${DB_NAME}"
     volumes:
       - pg-data:/var/lib/postgresql/data
     restart: on-failure

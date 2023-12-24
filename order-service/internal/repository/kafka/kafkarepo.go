@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/pintoter/mts-test/order-service/internal/entity"
 	"gopkg.in/Shopify/sarama.v1"
@@ -42,9 +43,11 @@ func (p *kafkaProducer) Publish(ctx context.Context, order entity.Order) error {
 	}
 
 	msg := &sarama.ProducerMessage{
-		Topic: p.topic,
-		Key:   sarama.StringEncoder(fmt.Sprintf("%d", order.UserId)),
-		Value: sarama.StringEncoder(data),
+		Topic:     p.topic,
+		Partition: -1,
+		Key:       sarama.StringEncoder(fmt.Sprintf("%d", order.UserId)),
+		Value:     sarama.StringEncoder(data),
+		Timestamp: time.Now(),
 	}
 
 	partition, offset, err := p.producer.SendMessage(msg)

@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -79,8 +78,7 @@ func (s *grpcServer) Run(cfg Config) error {
 }
 
 func (s *grpcServer) CreateOrder(ctx context.Context, req *desc.CreateOrderRequest) (*desc.CreateOrderResponse, error) {
-	fmt.Println("------------- INPUT PARAMS ------------")
-	fmt.Println(req.GetUserId(), req.GetItemId())
+	log.Printf("got new request from UserId: %d for buy ItemId: %d\n", req.GetUserId(), req.GetItemId())
 
 	err := s.service.CreateOrder(ctx, req.GetUserId(), req.GetItemId())
 	if err != nil {

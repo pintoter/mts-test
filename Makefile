@@ -1,13 +1,17 @@
+.DEFAULT_GOAL := re
+
+ifeq ($(version), prod)
+	DOCKER_COMPOSE_FILE = -f docker-compose.prod.yaml
+else
+	DOCKER_COMPOSE_FILE = -f docker-compose.local.yaml
+endif
+
 .PHONY: run
-run-prod:
-	docker-compose -f docker-compose.prod.yaml up --remove-orphans --build
+run:
+	docker-compose ${DOCKER_COMPOSE_FILE} up --remove-orphans --build
 
-run-local:
-	docker-compose -f docker-compose.local.yaml up --remove-orphans --build
-
-rebuild: build
-	docker-compose up --remove-orphans --build
-
-.PHONY: stop
+.PHONY: down
 stop:
-	docker-compose down --remove-orphans
+	docker-compose ${DOCKER_COMPOSE_FILE} down
+
+re: stop run

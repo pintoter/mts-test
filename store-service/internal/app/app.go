@@ -30,9 +30,13 @@ func Run() {
 	storeRepo := dbrepo.New(db)
 	storeService := service.New(storeRepo)
 	handler := kafka.NewHandler(storeService)
-	log.Println("store-service: init handler")
+	log.Println("store-service: init kafka handler")
 
-	err = kafka.StartConsuming(context.Background(), &cfg.Kafka, handler)
-	for {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	err = kafka.StartConsuming(ctx, &cfg.Kafka, handler)
+	if err != nil {
+		log.Println(err)
 	}
+	<-ctx.Done()
 }

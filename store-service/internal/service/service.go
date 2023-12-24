@@ -21,7 +21,6 @@ func New(repo repository.StoreRepository) *Service {
 func (s *Service) Store(ctx context.Context, order entity.Order) error {
 	id, err := s.repo.Save(ctx, order)
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 	log.Printf("store service: successfully writing new order in DB: %d\n", id)

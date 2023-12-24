@@ -6,9 +6,9 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 <div align="center">
-    <h1>Order path</h1>
+    <h1>Order & Store</h1>
     <h5>
-        Microservices written in Go as test task 
+        Microservices written in Go as test task
     </h5>
 </div>
 

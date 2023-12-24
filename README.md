@@ -16,7 +16,6 @@
 * **[Task](#task)**
 * **[Installation](#installation)**
 * **[Getting started](#Getting_started)**
-* **[Day03](#day03)**
 
 ---
 

@@ -108,3 +108,10 @@ make version=prod
 | -- | ------- | ------- | ---------- |
 | 1  | 10      | 1       | 2023-12-24 |
 ```
+
+**For run UNIT-tests:**
+```shell
+make test
+```
+> **Hint:**
+Cover only repository with `sqlmock` and service layer with `gomock`

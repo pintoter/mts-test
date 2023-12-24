@@ -25,5 +25,10 @@ func (s *Service) CreateOrder(ctx context.Context, userId, itemId int64) error {
 		CreatedAt: time.Now(),
 	}
 
-	return s.broker.Publish(ctx, order)
+	err := s.broker.Publish(ctx, order)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

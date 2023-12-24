@@ -22,3 +22,7 @@ migrations-up:
 .PHONY: migrations-down
 migrations-down:
 	migrate -path $(MIGRATIONS_DIR) -database $(POSTGRES_DSN) down
+
+.PHONY: mock-gen
+mock-gen:
+	mockgen -source=internal/repository/repository.go -destination=internal/repository/mocks/mock_repository.go

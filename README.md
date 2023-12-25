@@ -1,4 +1,4 @@
-# order-path
+# order-store
 
 ## Examples
 
@@ -15,7 +15,7 @@
 ## Navigation
 * **[Task](#task)**
 * **[Installation](#installation)**
-* **[Getting started](#Getting_started)**
+* **[Getting started](#getting)**
 
 ---
 
